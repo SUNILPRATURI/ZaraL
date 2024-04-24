@@ -1,0 +1,194 @@
+
+{% extends "core/base.html" %}
+{% load static %}
+{% block sidelinks %}
+
+
+<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+    {% if streams %}Streams {% else %}{% endif %}
+    {% if rooms %}Class Rooms {% endif %}
+    
+
+    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+</a>
+<div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+    <nav class="sb-sidenav-menu-nested nav">
+        {% if streams %}
+        <a class="nav-link" href="{% url "manage_streams" %}">Manage</a>
+        <a class="nav-link" href="{% url "add-stream" %}">New Class Streams</a>
+       
+        {% endif %}
+          
+        {% if rooms %}
+          <a class="nav-link" href="{% url "manage_classrooms" %}">Manage</a>
+        <a class="nav-link" href="{% url "add-room" %}">New Class Rooms</a>
+        
+        {% endif %}
+       
+
+</div>
+
+{% endblock sidelinks %}
+
+{% block content %}
+
+
+{% if request.GET.edited %}
+<div class="d-flex justify-content-center mt-1 position-relative" id="alert">
+    <div class="alert alert-dismissible alert-success position-absolute">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <strong>Well done!</strong> successfully edited
+    <strong id="count-10"></strong> <span>s</span>
+</div>
+</div>
+
+{% endif %}
+
+
+{% if request.GET.added %}
+<div class="d-flex justify-content-center mt-1 position-relative" id="alert">
+    <div class="alert alert-dismissible alert-success position-absolute">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <strong>Well done!</strong> successfully added
+    <strong id="count-10"></strong> <span>s</span>
+</div>
+</div>
+
+{% endif %}
+
+{% if streams %}
+<h3 class="mt-4">Manage Streams</h3> 
+
+{% endif %}
+{% if rooms %}
+<h3 class="mt-4">Manage Class Rooms</h3>
+{% endif %}
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-house me-1"></i>
+        {% if rooms %}
+          Classes
+        {% else %}
+           Classes: 
+        {% endif %}
+        {% if streams %}
+          Streams
+        {% endif %}
+    </div>
+    <div class="card-body">
+        {% if rooms %}
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>ClassID</th>
+                    <th>Class Name</th>
+                    <th>Streams</th>
+                    <th>Class Patron</th>
+                    <th>Class Representative</th>
+                    <th>Class Prefect</th>
+                    <th>Total</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>ClassID</th>
+                    <th>Class Name</th>
+                    <th>Streams</th>
+                    <th>Class Patron</th>
+                    <th>Class Representative</th>
+                    <th>Class Prefect</th>
+                    <th>Total</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                    {% for room in rooms %}
+                        <tr>
+                            <td>{{room.room_id}}</td>
+                            <td>{{room.room_name}}</td>
+                            <td>{{room.room_count}}</td>
+                            <td>{{room.room_teacher}}</td>
+                            <td>{{room.room_representative}}</td>
+                            <td>{{room.room_prefect}}</td>
+                            <td>{{room.room_total}}</td>
+                            <td>
+                                <a href="{% url "manage-room" room.room_id %}" class="btn btn-primary"><i class="fa fa-pencil-square me-1" aria-hidden="true"></i></a>
+                                
+                            </td>
+                            <td>
+                                <a href="{% url "manage-room" room.room_id %}" class="btn btn-primary"><i class="fa fa-pencil-square me-1" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                
+                
+            </tbody>
+        </table>
+        {% endif %}
+        {% if streams %}
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>StreamID</th>
+                    <th>Stream Name</th>
+                    <th>Streams</th>
+                    <th>Stream Patron</th>
+                    <th>Stream Representative</th>
+                    <th>Stream Prefect</th>
+                    <th>Total</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>StreamID</th>
+                    <th>Stream Name</th>
+                    <th>Streams</th>
+                    <th>Stream Patron</th>
+                    <th>Stream Representative</th>
+                    <th>Stream Prefect</th>
+                    <th>Total</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                
+                    {% for stream in streams %}
+                        <tr>
+                            <td>{{stream.stream_id}}</td>
+                            <td>{{stream.stream_name}}</td>
+                            <td>{{stream.stream_count}}</td>
+                            <td>{{stream.stream_teacher}}</td>
+                            <td>{{stream.stream_representative}}</td>
+                            <td>{{stream.stream_prefect}}</td>
+                            <td>{{stream.stream_total}}</td>
+                            <td>
+                                 <a href="{% url 'manage-stream' stream.stream_id%}" class="btn btn-primary"><i class="fa fa-eye me-1" aria-hidden="true"></i></a>
+                            </td>
+                            <td >
+                                <a href="{% url 'manage-stream' stream.stream_id%}" class="btn btn-primary"><i class="fa fa-pencil-square me-1" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+               
+                
+            </tbody>
+        </table>
+
+        
+
+
+        {% endif %}
+    </div>
+    
+</div>
+
+
+  
+{% endblock content %}

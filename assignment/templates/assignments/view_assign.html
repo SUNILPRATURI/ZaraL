@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+{% block content %}
+
+
+
+<div class="d-flex justify-content-center">
+  <div class="card shadow-lg border-0 rounded-lg mt-5 overflow-auto" style="min-width: 80%;">
+      <div class="card-header"><h3 class="text-center font-weight-light my-4">
+        {{assignment.name}}
+      </h3></div>
+      <div class="card-body">
+          Course ID: {{course.code}}
+          <p>
+            Course Status: {{assignment.status}}
+          </p>
+          <h4>Description</h4>
+          <p>
+            {{assignment.description}}
+
+          </p>
+          <div class="d-flex justify-content-end end-0">
+            <a href="{% url "courses" %}" class="btn btn-success">Close</a>
+          </div>
+      </div>
+
+  </div>
+
+</div>
+
+
+
+{% endblock content %}

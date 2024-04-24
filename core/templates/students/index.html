@@ -1,0 +1,61 @@
+
+{% extends "students/base.html" %}
+{% load static %}
+
+
+
+{% block content %}
+                        <h4 class="mt-4">Welcome <small>{{user.role}} </small><small>{{user.username}}</small></h4>
+                        <ol class="breadcrumb mb-4">
+
+                        </ol>
+                        
+                        
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                My Notes
+                            </div>
+                            <div class="card-body">
+                                {% if notes %}
+                                  <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Course</th>
+                                            <th>Topic</th>
+                                            <th>Update</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th> ID</th>
+                                            <th>Course</th>
+                                            <th>Topic</th>
+                                            <th>Update</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for note in notes %}
+                                            <tr>
+                                                <td>{{note.id}}</td>
+                                                <td>{{note.Course}}</td>
+                                                <td>{{note.name}}</td>
+                                                <td>
+                                                    <a href="{% url "view_student_notes" note.id %}" class=" btn-sm btn  btn-primary"><i class="fa fa-eye fa-sm pe-1"  ></i>View</a>
+                                                </td>
+
+                                            </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                 <small>No Notes found</small>
+                                {% endif %}
+                            </div>
+                        </div>
+
+{% endblock content %}

@@ -1,0 +1,82 @@
+
+{% extends "core/base.html" %}
+{% load static %}
+
+
+{% block content %}
+                        
+                        <div class="row p-2">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <div class="card-body">Total Courses</div>
+                                    <div class=" d-flex align-items-center justify-content-between p-1">
+                                        <a class="small text-white nav-link " href="#">Created</a>
+                                        <div class="small text-white"><h4>{{total_courses}}</h4></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                Assignments
+                            </div>
+                            <div class="card-body">
+                                {% if assignments %}
+                                  <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>Assignment ID</th>
+                                            <th>Assignment Name</th>
+                                            <th>View</th>
+                                            <th>Edit</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Assignment ID</th>
+                                            <th>Assignment Name</th>
+                                            <th>View</th>
+                                            <th>Edit</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for assignment in assignments %}
+                                            <tr>
+                                                <td>{{assignment.code}}</td>
+                                                <td>{{assignment.name}}</td>
+                                                <td>
+                                                    <a href="{% url "edit_assignment" assignment.id %}" class=" btn-sm btn  btn-primary"><i class="fa fa-pencil-square fa-sm pe-1"  ></i>Edit</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url "view_assignment" assignment.id %}" class=" btn-sm btn btn-success"><i class="fa fa-eye fa-sm pe-1" ></i>View</a>
+                                                </td>
+                                                <td>
+                                                    <form action="{% url 'deactivate_assignment' assignment.id %}" method="POST">
+                                                        {% csrf_token %}
+                                                            <button type="submit" id="deactivate_button" class="btn-sm btn {% if not assignment.status %}btn-info{% else %}btn-danger{% endif %}">
+                                                                {% if assignment.status %}
+                                                                    <i class="fa fa-lock fa-sm pe-1" ></i>Inactive
+                                                                {% else %}
+                                                                    <i class="fa fa-rocket fa-sm pe-1" ></i>Active
+                                                                {% endif %}
+                                                            </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                 <small>No courses found</small>
+                                {% endif %}
+                            </div>
+                        </div>
+
+{% endblock content %}

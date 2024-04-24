@@ -1,0 +1,71 @@
+
+{% extends "core/base.html" %}
+{% load static %}
+
+
+{% block content %}
+                        
+
+
+                        <div class="card mb-4 mt-3">
+                            <div class="card-header d-flex justify-content-between">
+                                <div>
+                                    <i class="fas fa-table me-1"></i>
+                                    Messages
+                                </div>
+                                <div>
+                                    <a href="{% url "send_message" %}" class="btn btn-primary">Send Message</a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {% if messages %}
+                                  <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th> ID</th>
+                                            <th>Sender</th>
+                                            <th>Date</th>
+                                            <th>Read</th>
+                                            <th>Delete</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th> ID</th>
+                                            <th>Sender</th>
+                                            <th>Date</th>
+                                            <th>Read</th>
+                                            <th>delete</th>
+                                            
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for message in messages %}
+                                            <tr>
+                                                <td>{{message.id}}</td>
+                                                <td>{{message.sender}}</td>
+                                                <td>{{message.date}}</td>
+
+                                                <td>
+                                                    <a href="{% url "view_message" message.id %}" class=" btn-sm btn  btn-primary"><i class="fa fa-eye fa-sm pe-1"  ></i>View</a>
+                                                </td>
+
+                                                <td>
+                                                    <a href="{% url "delete_message" message.id %}" class=" btn-sm btn  btn-danger"><i class="fa fa-delete fa-sm pe-1"  ></i>Delete</a>
+                                                </td>
+
+                                                
+                                                
+                                            </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                 <small>No Messages found</small>
+                                {% endif %}
+                            </div>
+                        </div>
+
+{% endblock content %}

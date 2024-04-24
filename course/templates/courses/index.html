@@ -1,0 +1,129 @@
+
+{% extends "base/base.html" %}
+{% load static %}
+{% block sidelinks %}
+
+
+<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+    Courses
+    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+</a>
+<div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+    <nav class="sb-sidenav-menu-nested nav">
+        <a class="nav-link" href="{% url "add_course" %}">Add New</a>
+        <a class="nav-link" href="{% url "courses" %}">View</a>
+       
+
+</div>
+<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayout" aria-expanded="false" aria-controls="collapseLayouts">
+    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+    Assignments
+    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+</a>
+<div class="collapse" id="collapseLayout" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+    <nav class="sb-sidenav-menu-nested nav">
+        <a class="nav-link" href="{% url "add_assignment" %}">add New</a>
+        <a class="nav-link" href="{% url "assignments" %}">View</a>
+       
+
+</div>
+
+<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayout3" aria-expanded="false" aria-controls="collapseLayouts">
+    <div class="sb-nav-link-icon"><i class="fas fa-sticky-note"></i></div>
+    Notes
+    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+</a>
+<div class="collapse" id="collapseLayout3" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+    <nav class="sb-sidenav-menu-nested nav">
+        <a class="nav-link" href="">add New</a>
+        <a class="nav-link" href="">Update</a>
+       
+
+</div>
+{% endblock sidelinks %}
+
+
+{% block content %}
+                        
+                        <div class="row p-2">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <div class="card-body">Total Courses</div>
+                                    <div class=" d-flex align-items-center justify-content-between p-1">
+                                        <a class="small text-white nav-link " href="#">Created</a>
+                                        <div class="small text-white"><h4>{{total_courses}}</h4></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                Courses
+                            </div>
+                            <div class="card-body">
+                                {% if courses %}
+                                  <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>Course ID</th>
+                                            <th>Course Name</th>
+                                            <th>Total Students</th>
+                                            <th>Rating</th>
+                                            <th>View</th>
+                                            <th>Edit</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Course ID</th>
+                                            <th>Course Name</th>
+                                            <th>Total Students</th>
+                                            <th>Rating</th>
+                                            <th>View</th>
+                                            <th>Edit</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for course in courses %}
+                                            <tr>
+                                                <td>{{course.id}}</td>
+                                                <td>{{course.course_name}}</td>
+                                                <td>{{course.course_total_registered}}</td>
+                                                <td>{{course.rating}}</td>
+                                                <td>
+                                                    <a href="{% url "edit_course" course.id %}" class=" btn-sm btn  btn-primary"><i class="fa fa-pencil-square fa-sm pe-1"  ></i>Edit</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url "view_course" course.id %}" class=" btn-sm btn btn-success"><i class="fa fa-eye fa-sm pe-1" ></i>View</a>
+                                                </td>
+                                                <td>
+                                                    <form action="{% url 'deactivate_course' course.id %}" method="POST">
+                                                        {% csrf_token %}
+                                                            <button type="submit" id="deactivate_button" class="btn-sm btn {% if not course.status %}btn-info{% else %}btn-danger{% endif %}">
+                                                                {% if course.status %}
+                                                                    <i class="fa fa-lock fa-sm pe-1" ></i>Inactive
+                                                                {% else %}
+                                                                    <i class="fa fa-rocket fa-sm pe-1" ></i>Active
+                                                                {% endif %}
+                                                            </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                 <small>No courses found</small>
+                                {% endif %}
+                            </div>
+                        </div>
+
+{% endblock content %}

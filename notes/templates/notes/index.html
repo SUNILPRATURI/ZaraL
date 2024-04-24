@@ -1,0 +1,58 @@
+
+{% extends "core/base.html" %}
+{% load static %}
+
+
+{% block content %}
+                        
+
+
+                        <div class="card mb-4 mt-3">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                Notes
+                            </div>
+                            <div class="card-body">
+                                {% if notes %}
+                                  <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th> ID</th>
+                                            <th>Course</th>
+                                            <th>Topic</th>
+                                            <th>Update</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th> ID</th>
+                                            <th>Course</th>
+                                            <th>Topic</th>
+                                            <th>Update</th>
+                                            
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for note in notes %}
+                                            <tr>
+                                                <td>{{note.id}}</td>
+                                                <td>{{note.Course}}</td>
+                                                <td>{{note.name}}</td>
+                                                <td>
+                                                    <a href="{% url "edit_notes" note.id %}" class=" btn-sm btn  btn-primary"><i class="fa fa-pencil-square fa-sm pe-1"  ></i>Edit</a>
+                                                </td>
+                                                
+                                                
+                                            </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                 <small>No Notes found</small>
+                                {% endif %}
+                            </div>
+                        </div>
+
+{% endblock content %}
